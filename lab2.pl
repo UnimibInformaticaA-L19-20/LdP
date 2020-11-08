@@ -55,3 +55,19 @@ insieme([X | Xs]) :-
     Y is [X | Xs],
     Y \= Xs,
     insieme(Xs).
+
+% permuta/2
+% è vero se il secondo argomento è una permutazione del primo
+% ?- permuta([a,b,c],[b,a,c]).
+% true
+% ?- permuta([a,b,c],[d,a,b]).
+% false
+seleziona(X, [X | Xs], Xs).
+seleziona(X, [Y | Ys], [Y | Zs]) :-
+    X \= Y,
+    seleziona(X, Ys, Zs). 
+
+permuta([],  []).
+permuta(Xs, [Z | Zs]) :-
+    seleziona(Z, Xs, Ys),
+    permuta(Ys, Zs).
