@@ -49,12 +49,27 @@ sust(A,B,[X | Xs], [B | Ys]) :- A = X, sust(A, B, Xs, Ys), !.
 sust(A,B,[X | Xs], [X| Ys]) :-  sust(A, B, Xs, Ys).
 
 
-insieme([]).
-insieme([ _]).
+%!  insieme/1 è vero se la lista non ha elementi ripetuti
+%
+%   Esempio:
+%   ?- insieme([a,b,c]).
+%   true
+%
+%   ?- insieme([a,c,a]).
+%   false
+%
+
+insieme([]) :- !.
+insieme([ _]) :-!.
 insieme([X | Xs]) :-
-    Y is [X | Xs],
-    Y \= Xs,
-    insieme(Xs).
+    not(del(X, Xs, Zs)),!,
+    insieme(Zs).
+    
+%! del/1 è un predicato ausiliario che elimina un elemento da un insieme
+
+del(X, [X | L1], L1).
+del(X, [Y | L], [Y | L1]) :-
+    del(X, L, L1).
 
 % permuta/2
 % è vero se il secondo argomento è una permutazione del primo
